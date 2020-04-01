@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="/templates/modeloSistema.xhtml">
+
+	<!-- _______________________________________________________________ -->
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:event listener="#{categoriaBean.carregarCadastro}"
+				type="preRenderView" />
+		</f:metadata>
+	</ui:define>
+	<!-- _______________________________________________________________ -->
+	<!-- Menu -->
+	<ui:define name="menu">
+		<ui:include src="/includes/menuPrincipal.xhtml" />
+	</ui:define>
+	<!-- _______________________________________________________________ -->
+	<ui:define name="conteudo">
+		<h:form id="frmCatCad">	
+		<!-- <p:graphicImage name="image/13.jpg" width="1360" height="565" />-->
+		<center>
+				<p:dialog visible="true" closable="false" resizable="false"
+						modal="false" draggable="false">		
+					<center>
+				<p:outputLabel value="CATEGORIA" />
+				<p:separator />
+			</center>
+			<center >
+				<h:panelGrid id="pnlCatCad" columns="4" border="1">
+					<p:inputText value="#{categoriaBean.categoriaCadastro.codigo}"
+						size="2" />
+					<p:inputText value="#{categoriaBean.categoriaCadastro.descricao}"
+						size="22" />
+				
+					<p:commandButton value="Salvar"
+						actionListener="#{categoriaBean.salvar}" icon="ui-icon-check"
+						rendered="#{categoriaBean.acao != 'Editar' and categoriaBean.acao != 'Excluir'}"
+						action="/pages/catCad.xhtml?faces-redirect=true" />
+					<p:commandButton value="Editar"
+						actionListener="#{categoriaBean.editar}" icon="ui-icon-pencil"
+						rendered="#{categoriaBean.acao == 'Editar'}"
+						action="/pages/catCad.xhtml?faces-redirect=true" style="background:orange"/>
+					<p:commandButton value="Excluir"
+						actionListener="#{categoriaBean.excluir}" icon="ui-icon-trash"
+						rendered="#{categoriaBean.acao == 'Excluir'}"
+						action="/pages/catCad.xhtml?faces-redirect=true" style="background:red"/>
+						<p:button outcome="/pages/catCad.xhtml?faces-redirect=true"
+					icon="ui-icon-refresh" style="background:gray"/>
+				</h:panelGrid>
+			</center>
+			<p:separator />
+
+			<!-- Tabela -->
+			<p:dataTable value="#{categoriaBean.listaCategoria}" var="categoria"
+				rows="13" paginator="true"
+				emptyMessage="Nenhuma Categoria cadastrada." >
+				<p:column width="65">
+					<p:button value="Editar" outcome="/pages/catCad.xhtml?faces-redirect=true"
+						icon="ui-icon-pencil" style="background:orange">
+						<f:param name="catcodigo" value="#{categoria.codigo}" />
+						<f:param name="catacao" value="Editar" />
+					</p:button>
+				</p:column>
+				<p:column width="72">
+					<p:button value="Excluir" outcome="/pages/catCad.xhtml?faces-redirect=true"
+						icon="ui-icon-trash" style="background:red">
+						<f:param name="catcodigo" value="#{categoria.codigo}" />
+						<f:param name="catacao" value="Excluir" />
+					</p:button>
+				</p:column>
+				<p:column>
+					<h:outputText value="#{categoria.descricao}" />
+				</p:column>
+			</p:dataTable>
+				</p:dialog>
+				</center>	
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

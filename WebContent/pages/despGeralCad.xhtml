@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="/templates/modeloSistema.xhtml">
+
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:event listener="#{despesaBean.carregarCadastro}"
+				type="preRenderView" />
+		</f:metadata>
+	</ui:define>
+	<!-- _______________________________________________________________ -->
+	<!-- Menu -->
+	<ui:define name="menu">
+		<ui:include src="/includes/menuPrincipal.xhtml" />
+	</ui:define>
+	<!-- _______________________________________________________________ -->
+	<ui:define name="conteudo">
+		<h:form id="frmProCad">
+			<!--  <p:graphicImage name="image/gráfico3.jpg" width="1360" height="565" />-->
+			<center>
+				<p:dialog visible="true" closable="false" resizable="false"
+					modal="false" draggable="false">
+					<center>
+						<p:outputLabel value="CANCELAR LANÇAMENTO"
+							rendered="#{despesaBean.acao == 'Cancelar'}" />
+						<p:outputLabel value="CORRIGIR LANÇAMENTO"
+							rendered="#{despesaBean.acao == 'Editar'}" />
+					</center>
+					<p:separator />
+					
+					<center>
+						<h:panelGrid columns="3">
+							<h:panelGrid id="pnlProCad" columns="2" border="1">
+								<p:outputLabel value="PRODUTO / SERVIÇO" />
+								<p:inputText value="#{despesaBean.dvdCadastro.descricao}"
+									size="24" />
+
+								<p:outputLabel value="CATEGORIA" />
+								<p:selectOneMenu value="#{despesaBean.dvdCadastro.categoria}"
+									converter="categoriaConverter" maxlength="20" rendered="#{despesaBean.acao != 'Cancelar'}">
+									<f:selectItem itemValue="" itemLabel="Selecione uma categoria" />
+									<f:selectItems value="#{despesaBean.listaCategoria}"
+										var="categoria" itemValue="#{categoria}"
+										itemLabel="#{categoria.descricao}" />
+									<!-- Listagem -->
+									<f:validateBean />
+								</p:selectOneMenu>
+								<p:inputText value="#{despesaBean.dvdCadastro.categoria.descricao}" readonly="true" size="29" rendered="#{despesaBean.acao == 'Cancelar'}"/>
+
+								<p:outputLabel value="OBSERVAÇÃO"
+									rendered="#{despesaBean.acao != 'Cancelar'}" />
+								<p:inputTextarea value="#{despesaBean.dvdCadastro.obs}" rows="3"
+									cols="22" rendered="#{despesaBean.acao != 'Cancelar'}" />
+
+							</h:panelGrid>
+							<h:panelGrid columns="2" border="1">
+								<p:outputLabel value="VALOR" />
+								<p:inputText value="#{despesaBean.dvdCadastro.valor}" size="13">
+									<f:convertNumber />
+									<!--	Aceitar valor no formato de Real R$ -->
+									<f:validateBean />
+								</p:inputText>
+
+								
+									<p:outputLabel value="FORMA DE PAGAMENTO"
+									rendered="#{despesaBean.acao != 'Cancelar'}" />	
+								<p:selectOneMenu
+									value="#{despesaBean.dvdCadastro.formaPagamento}"
+									rendered="#{despesaBean.acao != 'Cancelar' and despesaBean.dvdCadastro.pago != 'C'}">
+									<f:selectItem itemLabel=" " itemValue=" " />
+									<f:selectItem itemLabel="DINHEIRO" itemValue="Dinheiro" />
+									<f:selectItem itemLabel="DÉBITO" itemValue="Debito" />
+								</p:selectOneMenu>								
+
+								<p:outputLabel value="VENCIMENTO"
+									rendered="#{despesaBean.acao != 'Cancelar' and despesaBean.dvdCadastro.pago == 'N'}" />
+								<p:outputLabel value="DATA DE PAGAMENTO"
+									rendered="#{despesaBean.acao != 'Cancelar' and despesaBean.dvdCadastro.pago == 'S'}" />
+								<p:inputMask mask="99/99/9999"
+									value="#{despesaBean.dvdCadastro.dataPagamento}" size="13"
+									rendered="#{despesaBean.acao != 'Cancelar' and despesaBean.dvdCadastro.pago != 'C'}">
+									<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-03:00" />
+								</p:inputMask>
+
+								<p:outputLabel value="PAGO"
+									rendered="#{despesaBean.acao != 'Cancelar' and despesaBean.dvdCadastro.pago != 'C'}" />
+								<p:selectOneMenu value="#{despesaBean.dvdCadastro.pago}"
+									rendered="#{despesaBean.acao != 'Cancelar' and despesaBean.dvdCadastro.pago != 'C'}">
+									<f:selectItem itemLabel="SIM" itemValue="S" />
+									<f:selectItem itemLabel="NÃO" itemValue="N" />
+								</p:selectOneMenu>
+								
+							</h:panelGrid>
+						</h:panelGrid>
+
+						<!-- Botões -->
+						<h:panelGrid columns="6">
+							<p:commandButton value="Corrigir"
+								actionListener="#{despesaBean.editar}"
+								update=":msgGlobal :frmProCad:pnlProCad"
+								rendered="#{despesaBean.acao == 'Editar'}"
+								action="/pages/despListaTudo.xhtml?faces-redirect=true"
+								icon="ui-icon-pencil" style="background:orange"/>
+
+							<p:commandButton value="Cancelar"
+								actionListener="#{despesaBean.cancelar}"
+								update=":msgGlobal :frmProCad:pnlProCad"
+								rendered="#{despesaBean.acao == 'Cancelar'}"
+								action="/pages/despListaTudo.xhtml?faces-redirect=true"
+								icon="ui-icon-closethick" style="background:red"/>
+
+							<p:button value="Voltar"
+								outcome="/pages/despListaTudo.xhtml?faces-redirect=true"
+								icon="ui-icon-arrowreturnthick-1-w" style="background:gray"/>
+						</h:panelGrid>
+					</center>
+				</p:dialog>
+			</center>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

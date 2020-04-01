@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<!-- Utilizando Template modeloGeral.xhtml -->
+<ui:composition template="/templates/modeloSistema.xhtml">
+
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:event listener="#{usuarioBean.carregarCadastro}"
+				type="preRenderView" />
+		</f:metadata>
+	</ui:define>
+	<!-- _______________________________________________________________ -->
+	<!-- Menu -->
+	<ui:define name="menu">
+		<ui:include src="/includes/menuPrincipal.xhtml" />
+	</ui:define>
+	<!-- _______________________________________________________________ -->
+	<!-- Parte central do layout da página web -->
+	<ui:define name="conteudo">
+		<h:form id="frmUsuCad">
+			<!--  <p:graphicImage name="image/verde.jpg" width="1360" height="565" />-->
+			<center>
+				<p:dialog visible="true" closable="false" resizable="false"
+					modal="false" draggable="false">
+					<center>
+						<p:outputLabel value="USUÁRIO" />
+					</center>
+					<p:separator />
+					<p:inputText maxlength="3" size="3" readonly="true"
+						value="#{usuarioBean.usuarioCadastro.codigo}" />
+					<center>
+						<h:panelGrid columns="2" border="1">
+							<p:outputLabel value="NOME" />
+							<p:inputText maxlength="50" size="15"
+								value="#{usuarioBean.usuarioCadastro.nome}" />
+
+							<p:outputLabel value="CPF" />
+							<p:inputMask mask="999.999.999-99" maxlength="50" size="15"
+								value="#{usuarioBean.usuarioCadastro.cpf}" />
+
+							<p:outputLabel value="SENHA" />
+							<p:password maxlength="8" size="15"
+								value="#{usuarioBean.usuarioCadastro.senha}" />
+						</h:panelGrid>
+
+						<!-- Botões -->
+						<h:panelGrid id="pnlFunCad" columns="4">
+							<p:commandButton value="Salvar"
+								actionListener="#{usuarioBean.salvar}"
+								update=":msgGlobal :frmUsuCad" rendered="#{autenticacaoBean.usuarioLogado.cpf == null}" icon="ui-icon-check"/>
+
+							<p:commandButton value="Editar"
+								actionListener="#{usuarioBean.editar}"
+								update=":msgGlobal :frmUsuCad" rendered="#{autenticacaoBean.usuarioLogado.cpf != null}" icon="ui-icon-pencil" style="background:orange"/>
+
+							<p:commandButton value="Excluir"
+								actionListener="#{usuarioBean.excluir}"
+								update=":msgGlobal :frmUsuCad" rendered="#{autenticacaoBean.usuarioLogado.cpf != null}" icon="ui-icon-trash" style="background:red"/>
+
+							<p:commandButton value="Voltar"
+								action="/pages/autenticacao.xhtml?faces-redirect=true" icon="ui-icon-arrowreturnthick-1-w" style="background:gray"/>
+						</h:panelGrid>
+					</center>
+					<p:separator />
+				</p:dialog>
+				<h:outputLabel value="'Nessa versão do sistema, só é permitido cadastrar um Usuário.'"/>
+			</center>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

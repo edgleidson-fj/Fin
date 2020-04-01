@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="/templates/modeloSistema.xhtml">
+	<!-- _______________________________________________________________ -->
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:event listener="#{despesaBean.carregarLista}" type="preRenderView" />
+		</f:metadata>
+	</ui:define>
+	<!-- _______________________________________________________________ -->
+	<!-- Menu -->
+	<ui:define name="menu">
+		<ui:include src="/includes/menuPrincipal.xhtml" />
+	</ui:define>
+	<!-- _______________________________________________________________ -->
+	<ui:define name="conteudo">
+		<h:form id="frmDespCad">
+			<p:dataTable emptyMessage="Sem registro de laçamentos no sistema." var="despesa"
+				value="#{despesaBean.listaDvd}" paginator="true" rows="50" id="tblDesp"
+				scrollable="true" scrollHeight="410" filteredValue="#{despesaBean.listaDvdFiltrados}">
+				<p:column width="60" >
+					<p:button value="Cancelar"
+						outcome="despGeralCad.xhtml?faces-redirect=true" icon="ui-icon-closethick" 
+						rendered="#{despesa.pago != 'C'}" style="background:red">
+						<f:param name="proacao" value="Cancelar" />
+						<f:param name="procodigo" value="#{despesa.codigo}" />
+					</p:button>
+				</p:column>
+				<p:column width="54" >
+					<p:button value="Corrigir"
+						outcome="/pages/despGeralCad.xhtml?faces-redirect=true" icon="ui-icon-pencil" 
+						rendered="#{despesa.pago != 'C'}" style="background:orange">
+						<f:param name="proacao" value="Editar" />
+						<f:param name="procodigo" value="#{despesa.codigo}" />
+					</p:button>
+				</p:column>
+
+				<p:column width="40" headerText="ID">
+					<h:outputText value="#{despesa.codigo}" rendered="#{despesa.pago != 'C'}"/>
+					<h:outputText value="#{despesa.codigo}" style="color:red" rendered="#{despesa.pago == 'C'}"/>
+				</p:column>
+
+				<p:column headerText="Produto/Serviço" width="145" filterBy="#{despesa.descricao}">
+					<h:outputText value="#{despesa.descricao}" rendered="#{despesa.pago != 'C'}" />
+					<h:outputText value="#{despesa.descricao}" style="color:red" rendered="#{despesa.pago == 'C'}"/>
+				</p:column>
+
+				<p:column headerText="Categoria" width="90" filterBy="#{despesa.categoria.descricao}">
+					<h:outputText value="#{despesa.categoria.descricao}" rendered="#{despesa.pago != 'C'}"/>
+					<h:outputText value="#{despesa.categoria.descricao}" style="color:red" rendered="#{despesa.pago == 'C'}"/>
+				</p:column>
+
+				<p:column headerText="Observação" width="130">
+				    <h:outputText value="Débito Automático -" rendered="#{despesa.tipo == 'A' and despesa.pago != 'C'}" />
+				    <h:outputText value="Fatura Mensal - " rendered="#{despesa.tipo == 'F' and despesa.pago != 'C'}" />
+					<h:outputText value="(#{despesa.parcela}ª Parcela " rendered="#{despesa.tipo == 'P' and despesa.pago != 'C'}"/>
+					<h:outputText value="#{despesa.cartao.bandeira}) - " rendered="#{despesa.tipo == 'P' and despesa.pago != 'C'}"/>
+					<h:outputText value="#{despesa.obs}" rendered="#{despesa.pago != 'C'}"/>
+					<h:outputText value="#{despesa.obs}" style="color:red" rendered="#{despesa.pago == 'C'}"/>
+				</p:column>  
+												
+				<p:column headerText="Vencimento" width="88">
+					<h:outputText value="#{despesa.dataPagamento}" rendered="#{despesa.pago == 'N'}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Data de Pagamento" width="55">
+					<h:outputText value="#{despesa.dataPagamento}" rendered="#{despesa.pago == 'S'}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Pago S/N/C" width="35" filterBy="#{despesa.pago}">
+					<h:outputText value="#{despesa.pago}" rendered="#{despesa.pago != 'C'}"/>
+					<h:outputText value="#{despesa.pago}" style="color:red" rendered="#{despesa.pago == 'C'}"/>
+				</p:column>
+
+				<p:column headerText="Forma de Pagamento" width="68">
+					<h:outputText value="#{despesa.formaPagamento}" rendered="#{despesa.pago != 'C'}"/>
+					<h:outputText value="#{despesa.formaPagamento}" style="color:red" rendered="#{despesa.pago == 'C'}"/>
+				</p:column>
+
+				<p:column headerText="Valor" width="55">
+					<h:outputText value="#{despesa.valor}" rendered="#{despesa.pago != 'C'}">
+						<f:convertNumber pattern="R$ 0.00"  />
+					</h:outputText>
+					<h:outputText value="#{despesa.valor}" style="color:red" rendered="#{despesa.pago == 'C'}">
+					<f:convertNumber pattern="R$ 0.00"  />
+					</h:outputText>
+				</p:column>				
+			</p:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

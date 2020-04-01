@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="/templates/modeloGeral.xhtml">
+	<!-- _______________________________________________________________ -->
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:event listener="#{despesaBean.carregarPesquisa}"
+				type="preRenderView" />
+		</f:metadata>
+	</ui:define>
+	<!-- _______________________________________________________________ -->
+	<ui:define name="conteudo">
+		<h:form id="frmDespCad">
+			<p:dataTable emptyMessage="Sem despesas nesse mês." var="despesa"
+				value="#{despesaBean.listaDespesa}">
+				<p:column width="80">
+					<!-- Botão Editar -->
+					<p:button outcome="/pages/despCad.xhtml?faces-redirect=true"
+						icon="ui-icon-pencil">
+						<f:param name="despcodigo" value="#{despesa.codigo}" />
+						<f:param name="despacao" value="Editar" />
+					</p:button>
+					<!-- Botão Excluir -->
+					<p:button outcome="/pages/despCad.xhtml?faces-redirect=true"
+						icon="ui-icon-trash">
+						<f:param name="despcodigo" value="#{despesa.codigo}" />
+						<f:param name="despacao" value="Excluir" />
+					</p:button>
+				</p:column>
+
+				<p:column headerText="Cód" width="25">
+					<h:outputText value="#{despesa.codigo}" />
+				</p:column>
+				<p:column headerText="Produto/Serviço">
+					<h:outputText value="#{despesa.descricao}" />
+				</p:column>
+				<p:column headerText="Tipo">
+					<h:outputText value="#{despesa.fixo}" />
+				</p:column>
+				<p:column headerText="Observação">
+					<h:outputText value="#{despesa.obs}" />
+				</p:column>
+				<p:column headerText="Categoria">
+					<h:outputText value="#{despesa.categoria}" />
+				</p:column>
+				<p:column headerText="Vencimento">
+					<h:outputText value="#{despesa.vencimento}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="Data Inicial">
+					<h:outputText value="#{despesa.dataInicial}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="Data Final">
+					<h:outputText value="#{despesa.dataFinal}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="Pagamento">
+					<h:outputText value="#{despesa.pagamento}" />
+				</p:column>
+				<p:column headerText="Preço">
+					<h:outputText value="#{despesa.valor}">
+						<f:convertNumber pattern="R$ 0.00" />
+					</h:outputText>
+				</p:column>
+			</p:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

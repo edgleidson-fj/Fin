@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<!-- Utilizando Template modeloGeral.xhtml -->
+<ui:composition template="/templates/modeloSistema.xhtml">
+<!-- _______________________________________________________________ -->
+	<!-- Menu -->
+	<ui:define name="menu">
+		<ui:include src="/includes/menuPrincipal.xhtml" />
+	</ui:define>
+	<!-- _______________________________________________________________ -->
+
+	<!-- Parte central do layout da página web -->
+	<ui:define name="conteudo">
+
+		<h:form id="frmDespesaPesquisa">
+			<center>
+				<h:outputText value="LANÇAMENTOS POR PERÍODO" />
+			</center>
+			<p:separator/>
+			<p:separator/>
+
+			<!-- Filtro -->
+			<center>
+				<h:panelGrid columns="5">
+					<p:outputLabel value="DE" />
+					<p:calendar value="#{despesaBean.filtro.dataInicial}" size="10" />
+
+					<p:outputLabel value="ATÉ" />
+					<p:calendar value="#{despesaBean.filtro.dataFinal}" size="10" />
+
+					<p:commandButton value="Buscar"
+						actionListener="#{despesaBean.buscar}"
+						update=":msgGlobal :frmDespesaPesquisa:tblDespesaPesquisa" style="background:gray"/>
+				</h:panelGrid>
+			</center>
+			<p:separator />
+			<p:dataTable id="tblDespesaPesquisa"
+				emptyMessage=""
+				value="#{despesaBean.listaDvdFiltrados}" var="despesa" 
+				paginator="true" rows="50"
+				scrollable="true" scrollHeight="370"
+				 >
+				
+				<p:column width="50" exportable="false">
+					<!-- Icone para exportar arquivos em Excel-->
+					<f:facet name="header">
+						<h:commandLink>
+							<p:graphicImage library="image" name="Excel.ico" width="36" />
+							<p:dataExporter type="xls" target="tblDespesaPesquisa"
+								fileName="Despesa_Por_Período" />
+						</h:commandLink>
+					</f:facet>
+					</p:column>				
+
+				<p:column headerText="Data" width="80">
+					<h:outputText value="#{despesa.dataPagamento}" rendered="#{despesa.pago != 'C'}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>					
+				</p:column>
+				
+				<p:column headerText="Produto/Serviço" width="200" filterBy="#{despesa.descricao}">
+					<h:outputText value="#{despesa.descricao}" />
+					<h:outputText value=" - (#{despesa.parcela}ª Parcela " rendered="#{despesa.tipo == 'P'}"/>
+					<h:outputText value="#{despesa.cartao.bandeira})" rendered="#{despesa.tipo == 'P'}"/>
+				</p:column>
+				
+				<p:column headerText="Categoria" width="200" filterBy="#{despesa.categoria}">
+					<h:outputText value="#{despesa.categoria.descricao}" />
+				</p:column>
+
+				<p:column headerText="Forma de Pagamento" width="145">
+					<h:outputText value="#{despesa.formaPagamento}" />
+				</p:column>
+				
+				<p:column headerText="Pago" width="10">
+					<h:outputText value="#{despesa.pago}" />
+				</p:column>
+
+				<p:column headerText="Valor" width="85">
+					<h:outputText value="#{despesa.valor}">
+					<f:convertNumber pattern="R$ 0.00"  />
+					</h:outputText>
+				</p:column>
+				</p:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

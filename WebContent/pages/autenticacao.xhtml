@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="/templates/modeloSistema.xhtml">
+	<!-- _______________________________________________________________ -->
+	<ui:define name="metadata">
+		<f:metadata>
+
+		</f:metadata>
+	</ui:define>
+	<!-- _______________________________________________________________ -->
+	<!-- Menu -->
+	<ui:define name="menu">
+		<ui:include src="/includes/menuPrincipal.xhtml" />
+	</ui:define>
+	<!-- _______________________________________________________________ -->
+	<ui:define name="conteudo">
+		<h:form id="frmPri">
+			<p:graphicImage name="image/13.jpg" width="100%" height="560px" />
+			<center>
+				<p:dialog visible="true" closable="false" resizable="false"
+					modal="false" draggable="false" rendered="#{autenticacaoBean.usuarioLogado.nome == null}">
+					<h:panelGrid columns="2" border="1">
+						<p:outputLabel value="CPF" />
+						<p:inputMask mask="999.999.999-99" value="#{autenticacaoBean.usuarioLogado.cpf}" size="15"/>
+
+						<p:outputLabel value="SENHA" />
+						<p:password value="#{autenticacaoBean.usuarioLogado.senha}" size="15"/>
+					</h:panelGrid>
+					<h:panelGrid columns="3">
+						<p:button icon="ui-icon-refresh"
+							outcome="/pages/autenticacao.xhtml?faces-redirect=true" style="background:gray"/>
+							
+						<p:commandButton value="Entrar"
+							action="#{autenticacaoBean.autenticar}"
+							update=":msgGlobal :frmPri" icon="ui-icon-unlocked"/>
+							
+						<p:button value="Criar"
+							outcome="/pages/userCad2.xhtml?faces-redirect=true" icon="ui-icon-gear" style="background:blue"/>
+					</h:panelGrid>								
+				</p:dialog>				
+			</center>			
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

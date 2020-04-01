@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="/templates/modeloSistema.xhtml">
+	<!-- _______________________________________________________________ -->
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:event listener="#{despesaBean.listarPagoMesAnterior}"
+				type="preRenderView" />
+		</f:metadata>
+	</ui:define>
+	<!-- _______________________________________________________________ -->
+	<!-- Menu -->
+	<ui:define name="menu">
+		<ui:include src="/includes/menuPrincipal.xhtml" />
+	</ui:define>
+	<!-- _______________________________________________________________ -->
+	<ui:define name="conteudo">
+		<h:form id="frmDespCad">
+			<center>
+				<p:outputLabel value="LANÇAMENTOS PAGOS DO ÚLTIMO MÊS" />
+			</center>
+			<p:separator />
+			<p:dataTable id="tblMesAnt"
+				emptyMessage="Sem lançamentos pagos no último mês." var="despesa"
+				value="#{despesaBean.listaDvd}" paginator="true" rows="50"
+				scrollable="true" scrollHeight="370">
+				<p:column width="40" exportable="false">
+					<!-- Icone para exportar arquivos em Excel-->
+					<f:facet name="header">
+						<h:commandLink>
+							<p:graphicImage library="image" name="Excel.ico" width="36" />
+							<p:dataExporter type="xls" target="tblMesAnt"
+								fileName="Mês_Anterior-Pagos" />
+						</h:commandLink>
+					</f:facet>
+
+					<h:outputText value="#{despesa.codigo}" />
+				</p:column>
+
+				<p:column headerText="Produto/Serviço" width="110"
+					filterBy="#{despesa.descricao}">
+					<h:outputText value="#{despesa.descricao}" />
+				</p:column>
+
+				<p:column headerText="Categoria" width="90"
+					filterBy="#{despesa.categoria.descricao}">
+					<h:outputText value="#{despesa.categoria.descricao}" />
+				</p:column>
+
+				<p:column headerText="Observação" width="200" exportable="false">
+				<h:outputText value="Débito Automático -" rendered="#{despesa.tipo == 'A'}" />
+				    <h:outputText value="Fatura Mensal - " rendered="#{despesa.tipo == 'F'}" />
+				<h:outputText value="(#{despesa.cartao.bandeira} " rendered="#{despesa.tipo == 'P'}" />
+					<h:outputText value="Parcelado) - " rendered="#{despesa.tipo == 'P'}" />
+					<h:outputText value="#{despesa.obs}" />
+				</p:column>
+
+				<!-- 
+				<p:column headerText="Vencimento" width="40">
+					<h:outputText value="#{despesa.dataVencimento}">
+						<f:convertDateTime />
+					</h:outputText>
+				</p:column>
+				 -->
+
+				<p:column headerText="Data de Pagamento" width="75">
+					<h:outputText value="#{despesa.dataPagamento}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Pago" width="24" exportable="false">
+					<h:outputText value="#{despesa.pago}" />
+				</p:column>
+
+				<p:column headerText="Forma de Pagamento" width="68"
+					filterBy="#{despesa.formaPagamento}">
+					<h:outputText value="#{despesa.formaPagamento}" />
+				</p:column>
+
+				<p:column headerText="Valor" width="55">
+					<h:outputText value="#{despesa.valor}">
+						<f:convertNumber pattern="R$ 0.00" />
+					</h:outputText>
+				</p:column>
+
+				<!-- Valor Total -->
+				<p:columnGroup type="footer">
+					<p:row>
+						<p:column colspan="8" style="text-align:right" footerText="" />
+						<p:column colspan="8" style="text-align:right" footerText="" />
+						<p:column colspan="8" style="text-align:right" footerText="" />
+						<p:column colspan="8" style="text-align:right" footerText="Total:" />
+						<p:column footerText="R$ #{despesaBean.valorTotal}" />
+					</p:row>
+				</p:columnGroup>
+			</p:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

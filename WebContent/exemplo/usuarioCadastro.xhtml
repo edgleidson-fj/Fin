@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<!-- Utilizando Template modeloGeral.xhtml -->
+<ui:composition template="/templates/modeloGeral.xhtml">
+
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:event listener="#{usuarioBean.carregarCadastro}"
+				type="preRenderView" />
+		</f:metadata>
+	</ui:define>
+
+	<!-- Parte central do layout da página web -->
+	<ui:define name="conteudo">
+	<h:form id="frmUsuCad">
+		<!-- Imagem -->
+		<center>
+			<p:graphicImage name="image/user.png" width="120" height="120">
+			</p:graphicImage>
+		</center>
+
+		<center>
+			<h:panelGrid columns="2" border="1">
+				<p:outputLabel value="Código:" />
+				<p:inputText maxlength="3" size="3" readonly="true"
+					value="#{usuarioBean.usuarioCadastro.codigo}"/>
+
+				<p:outputLabel value="Login:" />
+				<p:inputText maxlength="50" size="20"
+					value="#{usuarioBean.usuarioCadastro.nome}"
+					readonly="#{usuarioBean.acao == 'Excluir'}" />
+
+				<p:outputLabel value="Tipo:" />
+				<p:selectOneMenu value="#{usuarioBean.usuarioCadastro.tipo}">
+					<f:selectItem itemLabel="Selecione" />
+					<f:selectItem itemLabel="Administrador" itemValue="Administrador" />
+					<f:selectItem itemLabel="Visitante" itemValue="Visitante" />
+				</p:selectOneMenu>
+
+				<p:outputLabel value="Senha:" />
+				<p:password maxlength="8" size="20"
+					value="#{usuarioBean.usuarioCadastro.senha}"
+					readonly="#{usuarioBean.acao == 'Excluir'}"/>
+			</h:panelGrid>
+
+			<!-- Botões -->
+			<h:panelGrid id="pnlFunCad" columns="3">
+				<p:commandButton value="Salvar"
+					actionListener="#{usuarioBean.salvar}"
+					rendered="#{usuarioBean.acao == 'Salvar'}" 
+					update=":msgGlobal :frmUsuCad"
+					action="/pages/usuarioPesquisa.xhtml?faces-redirect=true"/>
+
+				<p:commandButton value="Editar"
+					actionListener="#{usuarioBean.editar}"
+					rendered="#{usuarioBean.acao == 'Editar'}" 
+					update=":msgGlobal :frmUsuCad"
+					action="/pages/usuarioPesquisa.xhtml?faces-redirect=true"/>
+
+				<p:commandButton value="Excluir"
+					actionListener="#{usuarioBean.excluir}"
+					rendered="#{usuarioBean.acao == 'Excluir'}"
+					update=":msgGlobal :frmUsuCad" 
+					action="/pages/usuarioPesquisa.xhtml?faces-redirect=true"/>
+
+				<p:commandButton value="Voltar"
+					action="/pages/usuarioPesquisa.xhtml?faces-redirect=true" />
+			</h:panelGrid>
+		</center>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

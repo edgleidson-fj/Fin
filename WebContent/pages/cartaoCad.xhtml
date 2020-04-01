@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="/templates/modeloSistema.xhtml">
+
+	<!-- _______________________________________________________________ -->
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:event listener="#{cartaoBean.carregarCadastro}"
+				type="preRenderView" />
+		</f:metadata>
+	</ui:define>
+	<!-- _______________________________________________________________ -->
+	<!-- Menu -->
+	<ui:define name="menu">
+		<ui:include src="/includes/menuPrincipal.xhtml" />
+	</ui:define>
+	<!-- _______________________________________________________________ -->
+	<ui:define name="conteudo">
+		<h:form id="frmCatCad">	
+		<!-- <p:graphicImage name="image/13.jpg" width="1360" height="565" />-->
+		<center>
+				<p:dialog visible="true" closable="false" resizable="false"
+						modal="false" draggable="false">		
+					<center>
+				<p:outputLabel value="CARTÃO" />
+				<p:separator />
+			</center>
+			<center >
+				<h:panelGrid id="pnlCatCad" columns="4" border="1">
+					<p:inputText value="#{cartaoBean.cartaoCadastro.codigo}"
+						size="2" />
+					<p:inputText value="#{cartaoBean.cartaoCadastro.bandeira}"
+						size="22" />
+				
+					<p:commandButton value="Salvar"
+						actionListener="#{cartaoBean.salvar}" icon="ui-icon-check"
+						rendered="#{cartaoBean.acao != 'Editar' and cartaoBean.acao != 'Excluir'}"
+						action="/pages/cartaoCad.xhtml?faces-redirect=true" />
+					<p:commandButton value="Editar"
+						actionListener="#{cartaoBean.editar}" icon="ui-icon-pencil"
+						rendered="#{cartaoBean.acao == 'Editar'}"
+						action="/pages/cartaoCad.xhtml?faces-redirect=true" style="background:orange"/>
+					<p:commandButton value="Excluir"
+						actionListener="#{cartaoBean.excluir}" icon="ui-icon-trash"
+						rendered="#{cartaoBean.acao == 'Excluir'}"
+						action="/pages/cartaoCad.xhtml?faces-redirect=true" style="background:red"/>
+						<p:button outcome="/pages/cartaoCad.xhtml?faces-redirect=true"
+					icon="ui-icon-refresh" style="background:gray"/>
+				</h:panelGrid>
+			</center>
+			<p:separator />
+
+			<!-- Tabela -->
+			<p:dataTable value="#{cartaoBean.listaCartao}" var="categoria"
+				rows="13" paginator="true"
+				emptyMessage="Nenhuma cartao cadastrada." >
+				<p:column width="65">
+					<p:button value="Editar" outcome="/pages/cartaoCad.xhtml?faces-redirect=true"
+						icon="ui-icon-pencil" style="background:orange" rendered="#{categoria.codigo != 1}">
+						<f:param name="catcodigo" value="#{categoria.codigo}" />
+						<f:param name="catacao" value="Editar" />
+					</p:button>
+				</p:column>
+				<p:column width="72">
+					<p:button value="Excluir" outcome="/pages/cartaoCad.xhtml?faces-redirect=true"
+						icon="ui-icon-trash" style="background:red" rendered="#{categoria.codigo != 1}">
+						<f:param name="catcodigo" value="#{categoria.codigo}" />
+						<f:param name="catacao" value="Excluir" />
+					</p:button>
+				</p:column>
+				<p:column>
+					<h:outputText value="#{categoria.bandeira}" />
+					<h:outputText value="Padrão" rendered="#{categoria.codigo == 1}" style="color:orange"/>
+				</p:column>
+			</p:dataTable>
+				</p:dialog>
+				</center>	
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

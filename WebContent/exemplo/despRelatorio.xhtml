@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="/templates/modeloGeral.xhtml">
+	<!-- _______________________________________________________________ -->
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:event listener="#{despesaBean.carregarPesquisa}"
+				type="preRenderView" />
+		</f:metadata>
+	</ui:define>
+	<!-- _______________________________________________________________ -->
+	<ui:define name="conteudo">
+		<h:form id="frmDespRel">
+			<p:dataTable emptyMessage="Sem despesas nesse mês." var="despesa"
+				value="#{despesaBean.listaDespesa}"
+				filteredValue="#{despesaBean.listaDespesaFiltrados}">
+				
+				<!-- Icone para exportar arquivos em PDF e Excel-->
+				<f:facet name="header">
+					<h:commandLink>
+						<p:graphicImage library="image" name="PDF.ico" width="36" />
+						<p:dataExporter type="pdf" target="tbldesp" fileName="Despesa"
+							encoding="ISO-8859-1" />
+						<!-- encoding="ISO-8859-1"- Para aceitar acentuação -->
+					</h:commandLink>
+					<h:commandLink>
+						<p:graphicImage library="image" name="Excel.ico" width="36" />
+						<p:dataExporter type="xls" target="tbldesp" fileName="Despesa" />
+					</h:commandLink>
+				</f:facet>
+
+				<p:column headerText="Data" width="100">
+					<h:outputText value="#{despesa.dataInicial}" >
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="Produto/Serviço" exportable="true"
+					filterBy="#{despesaBean.despesaCadastro.descricao}">
+					<h:outputText value="#{despesa.descricao}" />
+				</p:column>
+				<p:column headerText="Observação" exportable="true" >
+					<h:outputText value="#{despesa.obs}" />
+				</p:column>
+				<p:column headerText="Categoria" exportable="true" filterBy="#{despesaBean.despesaCadastro.categoria}">
+					<h:outputText value="#{despesa.categoria}" />
+				</p:column>
+				<p:column headerText="Pagamento" exportable="true" filterBy="#{despesaBean.despesaCadastro.pagamento}" width="100">
+					<h:outputText value="#{despesa.pagamento}" />
+				</p:column>
+				<p:column headerText="Preço" exportable="true"  width="100">
+					<h:outputText value="#{despesa.valor}">
+						<f:convertNumber pattern="R$ 0.00" />
+					</h:outputText>
+				</p:column>
+			</p:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

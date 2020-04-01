@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="/templates/modeloSistema.xhtml">
+
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:event listener="#{despesaBean.carregarCadastro}"
+				type="preRenderView" />
+		</f:metadata>
+	</ui:define>
+<!-- _______________________________________________________________ -->
+	<!-- Menu -->
+	<ui:define name="menu">
+		<ui:include src="/includes/menuPrincipal.xhtml" />
+	</ui:define>
+	<!-- _______________________________________________________________ -->
+	<ui:define name="conteudo">
+		<h:form id="frmProCad">
+		<center>
+				<p:dialog visible="true" closable="false" resizable="false"
+					modal="false" draggable="false">
+			<center>
+				<p:outputLabel value="ÁREA DE PAGAMENTO" />
+			</center>
+			<p:separator />
+			<center>
+				<h:panelGrid columns="2">
+					<h:panelGrid id="pnlProCad" columns="2" border="1">
+						<p:outputLabel value="PRODUTO / SERVIÇO" />
+						<p:inputText value="#{despesaBean.dvdCadastro.descricao}"
+							size="18" readonly="true" />
+
+						<p:outputLabel value="CATEGORIA" />
+						<p:inputText value="#{despesaBean.dvdCadastro.categoria}"
+							size="18" readonly="true" />						
+					</h:panelGrid>
+
+					<h:panelGrid columns="2" border="1">
+						<p:outputLabel value="VALOR" />
+						<p:inputText value="#{despesaBean.dvdCadastro.valor}" size="13"
+							readonly="true">
+							<f:convertNumber />
+							<!--	Aceitar valor no formato de Real R$ -->
+							<f:validateBean />
+						</p:inputText>
+
+						<p:outputLabel value="FORMA DE PAGAMENTO" />
+						<p:selectOneMenu value="#{despesaBean.dvdCadastro.formaPagamento}">
+							<f:selectItem itemValue="Dinheiro" itemLabel="DINHEIRO" />
+							<f:selectItem itemValue="Debito" itemLabel="DÉBITO" />
+						</p:selectOneMenu>						
+					</h:panelGrid>
+				</h:panelGrid>
+				
+				<h:panelGrid columns="3">
+				<p:commandButton value="Efetuar Pagamento"
+						actionListener="#{despesaBean.pagamentoEfetuado}"
+						update=":msgGlobal :frmProCad:pnlProCad"
+						action="/pages/despLista.xhtml?faces-redirect=true"
+						rendered="#{despesaBean.acao == 'Editar'}" icon="ui-icon-tag"/>
+
+					<p:button value="Voltar"
+						outcome="/pages/despLista.xhtml?faces-redirect=true" icon="ui-icon-arrowreturnthick-1-w" style="background:gray"/>
+				</h:panelGrid>
+			</center>
+			</p:dialog>
+			</center>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

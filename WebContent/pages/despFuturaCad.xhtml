@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="/templates/modeloSistema.xhtml">
+
+
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:event listener="#{despesaBean.carregarCadastro}"
+				type="preRenderView" />
+		</f:metadata>
+	</ui:define>
+	<!-- _______________________________________________________________ -->
+	<!-- Menu -->
+	<ui:define name="menu">
+		<ui:include src="/includes/menuPrincipal.xhtml" />
+	</ui:define>
+	<!-- _______________________________________________________________ -->
+	<ui:define name="conteudo">
+		<h:form id="frmProCad">
+		<!--  <p:graphicImage name="image/13.jpg" width="1360" height="565" />-->
+		<center>
+				<p:dialog visible="true" closable="false" resizable="false"
+						modal="false" draggable="false">
+			<center>
+				<p:outputLabel value="LANÇAMENTO FUTURO" style="margin-left:100px">
+				<p:button value="COMPLETO"
+								outcome="/pages/despFuturaCadCompleto.xhtml?faces-redirect=true"
+								style="color:white; background:gray; margin-right:5px; margin-left:120px" />
+						</p:outputLabel>
+			<p:separator/>
+				<h:panelGrid columns="2">
+					<h:panelGrid id="pnlProCad" columns="2" border="1">
+						<p:outputLabel value="PRODUTO / SERVIÇO" />
+						<p:inputText value="#{despesaBean.dvdCadastro.descricao}"
+							size="24" />
+
+						<p:outputLabel value="CATEGORIA" />
+						<p:selectOneMenu value="#{despesaBean.dvdCadastro.categoria}"
+							converter="categoriaConverter" maxlength="20">
+							<f:selectItem itemValue="" itemLabel="Selecione uma categoria" />
+							<f:selectItems value="#{despesaBean.listaCategoria}"
+								var="categoria" itemValue="#{categoria}"
+								itemLabel="#{categoria.descricao}" />
+							<!-- Listagem -->
+							<f:validateBean />
+						</p:selectOneMenu>
+
+						<p:outputLabel value="OBSERVAÇÃO" />
+						<p:inputTextarea value="#{despesaBean.dvdCadastro.obs}" rows="3"
+							cols="22" />
+					</h:panelGrid>
+					<h:panelGrid columns="2" border="1">
+						<p:outputLabel value="VALOR" />
+						<p:inputText value="#{despesaBean.dvdCadastro.valor}" size="10">
+							<f:convertNumber />
+							<!--	Aceitar valor no formato de Real R$ -->
+							<f:validateBean />
+						</p:inputText>
+						
+						<p:outputLabel value="VENCIMENTO" />
+						<p:inputMask mask="99/99/9999"
+							value="#{despesaBean.dvdCadastro.dataPagamento}" size="10">
+							<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
+						</p:inputMask>
+					</h:panelGrid>
+				</h:panelGrid>
+
+				<!-- Botões -->
+				<h:panelGrid columns="6">
+				<p:button icon="ui-icon-refresh"
+							outcome="/pages/despFuturaCad.xhtml?faces-redirect=true" style="background:gray"/>
+				
+					<p:commandButton value="Gravar"
+						actionListener="#{despesaBean.salvarFuturo}"
+						update=":msgGlobal :frmProCad:pnlProCad"
+						action="/pages/despFuturaCad.xhtml?faces-redirect=true" icon="ui-icon-check"/>
+
+					<p:button value="Listar"
+						outcome="despListaFutura.xhtml?faces-redirect=true" icon="ui-icon-clipboard" style="background:blue"/>
+				</h:panelGrid>
+			</center>
+			</p:dialog>
+			</center>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

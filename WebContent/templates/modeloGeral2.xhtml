@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Drogaria</title>
+	<h:outputStylesheet library="css" name="estilos.css"/>
+</h:head>
+<h:body>
+
+
+	<p:growl id="msgGlobal" showDetail="true" sticky="true" /> 
+	 
+	
+	<p:layout fullPage="true">
+		<!-- Norte _ Superior -->
+		<p:layoutUnit position="north"
+			header="Sistema de Gerenciamento de Drogaria" resizable="false"
+			closable="false" collapsible="false">
+		</p:layoutUnit>
+
+	
+		<p:layoutUnit position="west" size="200" resizable="false"
+			closable="false" collapsible="false">
+	
+			<h:form>
+				<p:panelMenu>
+					<p:submenu label="Arquivo">
+						<p:menuitem value="Principal"/>
+							
+						<p:menuitem value="Sair" />
+					</p:submenu>
+
+					
+
+					<p:submenu label="Vendas">
+					</p:submenu>
+				</p:panelMenu>
+			</h:form>
+		</p:layoutUnit>
+
+	
+		<p:layoutUnit position="center" resizable="false" closable="false"
+			collapsible="false">
+	
+			<ui:insert name="conteudo" />
+		</p:layoutUnit>
+
+			<p:layoutUnit position="east" resizable="false" closable="false"
+			collapsible="false">
+		</p:layoutUnit>
+
+	
+		<p:layoutUnit position="south"
+			header="Desenvolvido com auxilio do Prof. Sergio Roberto Delfino"
+			resizable="false" closable="false" collapsible="false">
+		</p:layoutUnit>
+	</p:layout>
+
+</h:body>
+</html>

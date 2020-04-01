@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:form>
+			<p:menubar >		
+			<p:submenu label="Acesso">
+			<p:menuitem value="Login" outcome="/pages/autenticacao.xhtml?faces-redirect=true" rendered="#{autenticacaoBean.usuarioLogado.cpf == null}"/>
+				<p:menuitem value="Sair" action="#{autenticacaoBean.sair}" rendered="#{autenticacaoBean.usuarioLogado.cpf != null}"/>
+			</p:submenu>
+			
+			<p:submenu label="Lançamentos" rendered="#{autenticacaoBean.usuarioLogado.cpf != null}">
+			<p:menuitem value="Lançamentos do Dia" outcome="/pages/despDiaCad.xhtml?faces-redirect=true"/>
+			<p:menuitem value="Lançamentos Futuro" outcome="/pages/despFuturaCad.xhtml?faces-redirect=true"/>		
+			</p:submenu>
+			
+			<p:submenu label="Gerencial" rendered="#{autenticacaoBean.usuarioLogado.cpf != null}">
+			<p:menuitem value="Mês Atual (A Pagar)" outcome="/pages/despLista.xhtml?faces-redirect=true"/>	
+			<p:menuitem value="Mês Atual (Pagos)" outcome="/pages/despListaPago.xhtml?faces-redirect=true"/>			
+			<p:menuitem value="Último Mês" outcome="/pages/despPagoMesAnterior.xhtml?faces-redirect=true"/>	
+			<p:menuitem value="Buscar por Período" outcome="/pages/despPeriodo.xhtml?faces-redirect=true"/>
+			<p:menuitem value="Lançamentos Futuro" outcome="/pages/despListaFutura.xhtml?faces-redirect=true"/>	
+			<p:menuitem value="Todos Lançamentos" outcome="/pages/despListaTudo.xhtml?faces-redirect=true"/>		
+			</p:submenu>
+
+			<p:submenu label="Cadastro" >
+			<p:menuitem value="Categoria" outcome="/pages/catCad.xhtml?faces-redirect=true" rendered="#{autenticacaoBean.usuarioLogado.cpf != null}"/>
+			<p:menuitem value="Cartão" outcome="/pages/cartaoCad.xhtml?faces-redirect=true" rendered="#{autenticacaoBean.usuarioLogado.cpf != null}"/>
+			<p:menuitem value="Usuário" outcome="/pages/userCad2.xhtml?faces-redirect=true"/>			
+			</p:submenu>
+
+			<p:submenu label="Ajuda">			
+				<p:menuitem value="Cadastro" outcome="/pages/ajudaCad.xhtml?faces-redirect=true"/>
+				<p:menuitem value="Lançamentos" outcome="/pages/ajudaLan.xhtml?faces-redirect=true"/>
+				<p:menuitem value="Gerencial" outcome="/pages/ajudaGer.xhtml?faces-redirect=true"/>
+			</p:submenu>
+		</p:menubar>
+			</h:form>
+</ui:composition>

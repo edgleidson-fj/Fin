@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="/templates/modeloGeral.xhtml">
+
+	<!-- Metadata -->
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:event listener="#{usuarioBean.inserirUsuario}"
+				type="preRenderView" />
+		</f:metadata>
+	</ui:define>
+
+	<ui:define name="conteudo">
+		<h:form id="frmAutenticar">
+			<!-- Plano de Fundo -->
+			<p:graphicImage width="1200" height="450">
+				<h:panelGrid columns="1" border="1">
+					<h:outputLabel value="Login: dvd" />
+					<h:outputLabel value="Senha:____" />
+				</h:panelGrid>
+				<center>
+					<p:dialog visible="true" closable="false" resizable="false"
+						modal="false" draggable="false">
+						<h:panelGrid columns="2" border="1">
+							<p:outputLabel value="Login  " />
+							<p:inputText value="#{autenticacaoBean.usuarioLogado.nome}" />
+
+							<p:outputLabel value="Senha  " />
+							<p:password size="20" maxlength="8"
+								value="#{autenticacaoBean.usuarioLogado.senha}" />
+						</h:panelGrid>
+
+						<!-- Botãø -->
+						<h:panelGrid columns="2">
+							<p:commandButton value="Entrar" update=":msgGlobal :frmAutenticar"
+								action="#{autenticacaoBean.autenticar}" />
+								<p:commandLink value="#" action="/pages/dvdLista.xhtml?faces-redirect=true"/>
+						</h:panelGrid>
+					</p:dialog>
+				</center>
+			</p:graphicImage>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

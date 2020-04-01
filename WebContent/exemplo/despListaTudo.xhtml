@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="/templates/modeloSistema.xhtml">
+	<!-- _______________________________________________________________ -->
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:event listener="#{despesaBean.carregarLista}" type="preRenderView" />
+		</f:metadata>
+	</ui:define>
+	<!-- _______________________________________________________________ -->
+	<!-- Menu -->
+	<ui:define name="menu">
+		<ui:include src="/includes/menuPrincipal.xhtml" />
+	</ui:define>
+	<!-- _______________________________________________________________ -->
+	<ui:define name="conteudo">
+		<h:form id="frmDespCad">
+			<p:dataTable emptyMessage="Sem despesas nesse mês." var="despesa"
+				value="#{despesaBean.listaDvd}">
+				<p:column width="35" headerText="Canc.">
+					<p:button value="C"
+						outcome="despGeralCad.xhtml?faces-redirect=true">
+						<f:param name="proacao" value="Cancelar" />
+						<f:param name="procodigo" value="#{despesa.codigo}" />
+					</p:button>
+				</p:column>
+				<p:column width="35" headerText="Editar">
+					<p:button value="E"
+						outcome="/pages/despGeralCad.xhtml?faces-redirect=true">
+						<f:param name="proacao" value="Editar" />
+						<f:param name="procodigo" value="#{despesa.codigo}" />
+					</p:button>
+				</p:column>
+
+				<p:column width="40" headerText="ID">
+					<h:outputText value="#{despesa.codigo}" />
+				</p:column>
+
+				<p:column headerText="Produto/Serviço" width="150">
+					<h:outputText value="#{despesa.descricao}" />
+				</p:column>
+
+				<p:column headerText="Categoria" width="90">
+					<h:outputText value="#{despesa.categoria.descricao}" />
+				</p:column>
+
+				<p:column headerText="Observação" width="130">
+					<h:outputText value="#{despesa.obs}" />
+				</p:column>
+
+				<p:column headerText="Vencimento" width="88">
+					<h:outputText value="#{despesa.dataVencimento}">
+						<f:convertDateTime />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Data de Pagamento" width="75">
+					<h:outputText value="#{despesa.dataPagamento}">
+						<f:convertDateTime />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Pago" width="24">
+					<h:outputText value="#{despesa.pago}" />
+				</p:column>
+
+				<p:column headerText="Forma de Pagamento" width="68">
+					<h:outputText value="#{despesa.formaPagamento}" />
+				</p:column>
+
+				<p:column headerText="Valor" width="55">
+					<h:outputText value="#{despesa.valor}">
+						<f:convertNumber pattern="R$ "/>
+					</h:outputText>
+				</p:column>
+			</p:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

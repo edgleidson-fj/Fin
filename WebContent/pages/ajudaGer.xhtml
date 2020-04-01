@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="/templates/modeloSistema.xhtml">
+	<!-- _______________________________________________________________ -->
+	<ui:define name="metadata">
+		<f:metadata>
+
+		</f:metadata>
+	</ui:define>
+	<!-- _______________________________________________________________ -->
+	<!-- Menu -->
+	<ui:define name="menu">
+		<ui:include src="/includes/menuPrincipal.xhtml" />
+	</ui:define>
+	<!-- _______________________________________________________________ -->
+	<ui:define name="conteudo">
+		<h:form id="frmPri">
+			<center>
+				<h:outputLabel value="GERENCIAL" />
+			</center>
+			<p:separator />
+
+			<h:outputLabel value="* MÊS ATUAL - A PAGAR" />
+			<h:panelGrid columns="1" border="0">
+				<h:outputLabel
+					value="- Lista de todos lançamentos em aberto para o mês atual." />
+				<h:outputLabel
+					value="- Para efetuar pagamento do lançamento basta clicar no botão 'PAGAR'." />
+				<h:outputLabel
+					value="- Ao clicar no botão 'PAGAR', será encaminhado para tela 'ÁREA DE PAGAMENTO'." />
+				<h:panelGrid columns="2">
+					<h:outputLabel
+						value="- Para gerar relatório MÊS ATUAL - A PAGAR em 'Excel' clicar no botão " />
+					<p:graphicImage name="image/Excel.ico" width="25" height="25" />
+				</h:panelGrid>
+			</h:panelGrid>
+			<p:separator />
+
+			<h:outputLabel value="* MÊS ATUAL - PAGOS" />
+			<h:panelGrid columns="1" border="0">
+				<h:outputLabel
+					value="- Lista de todos lançamentos que já foram quitados do mês atual." />
+				<h:outputLabel
+					value="- Para fazer qualquer tipo de correção basta clicar no botão 'CORRIGIR'." />
+				<h:panelGrid columns="2">
+					<h:outputLabel
+						value="- Para gerar relatório MÊS ATUAL - PAGOS em 'Excel' clicar no botão " />
+					<p:graphicImage name="image/Excel.ico" width="25" height="25" />
+				</h:panelGrid>
+			</h:panelGrid>
+			<p:separator />
+
+			<h:outputLabel value="* ÚLTIMO MÊS" />
+			<h:panelGrid columns="1" border="0">
+				<h:outputLabel
+					value="- Lista de todos lançamentos que foram quitados do mês anterior." />
+				<h:panelGrid columns="2">
+					<h:outputLabel
+						value="- Para gerar relatório ÚLTIMO MÊS - PAGOS em 'Excel' clicar no botão " />
+					<p:graphicImage name="image/Excel.ico" width="25" height="25" />
+				</h:panelGrid>
+			</h:panelGrid>
+			<p:separator />
+
+			<h:outputLabel value="* PERÍODO" />
+			<h:panelGrid columns="1" border="0">
+				<h:outputLabel value="- Lista de lançamentos por período." />
+				<h:panelGrid columns="2">
+				<h:outputLabel
+					value="- Para gerar relatório por PERÍODO em 'Excel' clicar no botão " />
+				<p:graphicImage name="image/Excel.ico" width="25" height="25" />
+				</h:panelGrid>
+				<h:outputLabel
+					value="- Para gerar relatório do PERÍODO correspondente, é necessário colocar um dia a mais no campo da DATA FINAL. " />
+			</h:panelGrid>
+			<p:separator />
+
+			<h:outputLabel value="* TUDO" />
+			<h:panelGrid columns="1" border="0">
+				<h:outputLabel
+					value="- Lista de todos lançamentos cadastrado no sistema." />
+				<h:outputLabel
+					value="- Para fazer qualquer tipo de correção basta clicar no botão 'CORRIGIR'." />
+				<h:outputLabel
+					value="- Para cancelar o Lançamento, basta clicar no botão 'CANCELAR'." />
+			</h:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

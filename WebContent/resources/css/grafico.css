@@ -1,0 +1,21 @@
+@charset "UTF-8";
+
+<style>
+    .Bimage{background-image:url("resources/image/car.jpg")}
+</style>
+
+
+.imagemVisualizar16 {
+background-image: url(image/car.jpg) !important;
+width: 16px;height: 16px;
+float:left;
+margin-right: 8px;
+}
+
+.imagemEditar16 {
+/*Aqui a pasta icones esta localizada em [Páginas Web] -> [icones] */
+background-image: url(image/car.jpg) !important;
+width: 16px;height: 16px;
+float:left;
+margin-right: 8px;
+}
